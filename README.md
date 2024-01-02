@@ -1,0 +1,2 @@
+# Dijkstra_Algorithm_Dynamic_Demonstration
+Dijkstra算法的执行过程动态演示，用于向该算法的学习者演示过程。多源最短路径算法。
