@@ -195,22 +195,6 @@ int main()
 		shapes.push_back(shape);
 	}
 
-	//the algorithm progress' nodes and lines data 
-	vector<VertexArray> lines_progress;
-	for (const auto& update : pathUpdates)
-	{
-		VertexArray line(Lines, 2);
-		line[0].position = nodeCoordinates[get<0>(update)];
-		line[1].position = nodeCoordinates[get<1>(update)];
-		lines_progress.push_back(line);
-	}
-	cout << endl;
-	cout << "The lines_progress are: " << endl;
-	for (auto& line : lines_progress)
-	{
-		cout << "(" << line[0].position.x << "," << line[0].position.y << ") (" << line[1].position.x << "," << line[1].position.y <<")" << endl;
-	}
-
 
 	//create SFML window
 	RenderWindow window(VideoMode(1500, 900), "Dijkstra Algorithm Dynamic Demonstration");
