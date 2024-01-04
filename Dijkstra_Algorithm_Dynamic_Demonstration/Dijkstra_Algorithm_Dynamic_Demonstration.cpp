@@ -7,7 +7,8 @@
 *Time:
 *  2023/12/31
 *Funcion:
-*	dijkstra algorithm dynamic demonstration
+*	Dijkstra algorithm access the shortest path.
+*   The result is displayed in the SFML window.
 *-------------------------------------------------------------------
 //                .-~~~~~~~~~-._       _.-~~~~~~~~~-.
 //            __.'              ~.   .~              `.__
@@ -24,6 +25,8 @@
 #include <queue>
 #include <limits>
 #include <string>
+#include <cmath>
+#include <tuple>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>	//use the SFML library
 using namespace std;
@@ -78,11 +81,13 @@ vector<Edge> readEdges(string filepath)
 typedef unordered_map<string,vector<pair<string,double>>> Graph;
 
 //dijkstra algorithm
-vector<string> dijkstra(const Graph& graph, const string& start, const string& end)
+tuple<vector<string>,vector<tuple<string,string,string>>> dijkstra(const Graph& graph, const string& start, const string& end)
 {
 	priority_queue<pair<double,string>, vector<pair<double,string>>, greater<pair<double,string>>> pq;  
 	unordered_map<string, double> distances;	//distance from start to each node
 	unordered_map<string, string> previous;	    //previous node in optimal path from start
+
+	vector<tuple<string, string,string>> pathUpdates;   //save the progress of the algorithm
 
 	//initialize the distances
 	for (const auto& entry : graph)
@@ -111,6 +116,12 @@ vector<string> dijkstra(const Graph& graph, const string& start, const string& e
 				distances[next] = new_distance;
 				previous[next] = current;  
 				pq.push({ new_distance, next });  
+
+				pathUpdates.push_back({ current, next ,"True" });  //save the progress of the algorithm
+			}
+			else
+			{
+				pathUpdates.push_back({current, next ,"False"});
 			}
 		}
 	}
@@ -124,7 +135,7 @@ vector<string> dijkstra(const Graph& graph, const string& start, const string& e
 		current = previous[current];
 	}
 
-	return path;
+	return make_tuple(path,pathUpdates);
 }
 
 
@@ -151,9 +162,20 @@ int main()
 	}
 
 	//find the shortest path
-	string startNode="N26";
-	string endNode="N50";
-	vector<string> path = dijkstra(graph, startNode, endNode);
+	string startNode="N1";
+	string endNode="N5";
+	auto result = dijkstra(graph, startNode, endNode);
+	vector<string> path = get<0>(result);
+	vector<tuple<string, string,string>> pathUpdates = get<1>(result); 
+	
+	//print the progress of the algorithm
+	cout << "The progress of the algorithm is: " << endl;
+	for (const auto& update : pathUpdates)
+	{
+		cout << get<0>(update) << " -> " << get<1>(update) << "  "<< get<2>(update)<<endl;
+	}
+	cout << endl;
+
 
 	//print the shortest path
 	cout<< "The shortest path from " << startNode << " to " << endNode << " is: " << endl;
@@ -171,6 +193,22 @@ int main()
 		shape.setFillColor(Color::Red);
 		shape.setPosition(node.x, node.y);
 		shapes.push_back(shape);
+	}
+
+	//the algorithm progress' nodes and lines data 
+	vector<VertexArray> lines_progress;
+	for (const auto& update : pathUpdates)
+	{
+		VertexArray line(Lines, 2);
+		line[0].position = nodeCoordinates[get<0>(update)];
+		line[1].position = nodeCoordinates[get<1>(update)];
+		lines_progress.push_back(line);
+	}
+	cout << endl;
+	cout << "The lines_progress are: " << endl;
+	for (auto& line : lines_progress)
+	{
+		cout << "(" << line[0].position.x << "," << line[0].position.y << ") (" << line[1].position.x << "," << line[1].position.y <<")" << endl;
 	}
 
 
@@ -197,13 +235,22 @@ int main()
 	//create the button for display the shortest path
 	RectangleShape button_shortest(Vector2f(215, 50));
 	button_shortest.setPosition(300, 830);
-	button_shortest.setFillColor(Color(255, 255, 255, 300));	//the last parameter is the transparency of the color
+	button_shortest.setFillColor(Color(255, 255, 255, 300));
 	//create the text for the button
 	Text buttonText_shortest("Display The Shortest Path", font, 20);
 	buttonText_shortest.setFillColor(Color::Black);
 	buttonText_shortest.setPosition(310, 840);
 	//create the bool variable for the visibility of the path
 	bool isVisiable_shortest = false;
+
+	//create the button for display the progress of the algorithm
+	RectangleShape button_progress(Vector2f(215, 50));
+	button_progress.setPosition(620, 830);
+	button_progress.setFillColor(Color(255, 255, 255, 300));	
+	Text buttonText_progress("Display The Progress", font, 20);
+	buttonText_progress.setFillColor(Color::Black);
+	buttonText_progress.setPosition(630, 840);
+	bool isVisiable_progress = false;
 
 	//main loop
 	while (window.isOpen())
@@ -225,6 +272,8 @@ int main()
 		window.draw(buttonText);
 		window.draw(button_shortest);
 		window.draw(buttonText_shortest);
+		window.draw(button_progress);
+		window.draw(buttonText_progress);
 
 		//draw the nodes
 		for (const auto& shape : shapes)
@@ -244,63 +293,6 @@ int main()
 			window.draw(text);
 		}
 
-		//mouse click event (draw all the paths)
-		if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) 
-		{
-			//check if the mouse click is within the button's area
-			if (button_path.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
-			{
-				isVisiable_path = !isVisiable_path;  
-			}
-			
-		}
-		if (isVisiable_path)
-		{
-			//Toggle the visibility of the path
-			for (const Edge& edge : edges)
-			{
-				VertexArray line(Lines, 2);
-				line[0].position = nodeCoordinates[edge.startNode]; //set the start point of the line
-				line[0].color = Color::Black;
-				line[1].position = nodeCoordinates[edge.endNode];
-				line[1].color = Color::Black;
-				window.draw(line);
-			}
-		}
-
-		//mouse click event (draw the shortest path)
-		if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
-		{
-			if (button_shortest.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
-			{
-				isVisiable_shortest = !isVisiable_shortest;
-			}
-		}
-		//save the lines
-		vector<VertexArray> lines;
-		if (isVisiable_shortest)
-		{
-			for (int i = 0; i < path.size() - 1; i++)
-			{
-				VertexArray line(Lines, 4);
-				Vector2f offset(0.5f, 0.5f);  //offset to make the line more clear
-
-				line[0].position = nodeCoordinates[path[i]]-offset;
-				line[0].color = Color::Red;
-				line[1].position = nodeCoordinates[path[i + 1]]-offset;
-				line[1].color = Color::Red;
-				line[2].position = nodeCoordinates[path[i]]+offset;
-				line[2].color = Color::Red;
-				line[3].position = nodeCoordinates[path[i + 1]]+offset;
-				line[3].color = Color::Red;
-				lines.push_back(line);
-			}
-		}
-		//draw the lines
-		for (const auto& line : lines)
-		{
-			window.draw(line);
-		}
 
 		//draw the text of the shortest path
 		Text text_shortest;
@@ -321,7 +313,98 @@ int main()
 		text_shortest.setPosition(1000, 820);
 		window.draw(text_shortest);
 
+
+		//mouse click event (draw all the paths)
+		if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) 
+		{
+			//check if the mouse click is within the button's area
+			if (button_path.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+			{
+				isVisiable_path = !isVisiable_path;  
+			}
+		}
+		if (isVisiable_path)
+		{
+			//Toggle the visibility of the path
+			for (const Edge& edge : edges)
+			{
+				VertexArray line(Lines, 2);
+				line[0].position = nodeCoordinates[edge.startNode]; //set the start point of the line
+				line[0].color = Color::Black;
+				line[1].position = nodeCoordinates[edge.endNode];
+				line[1].color = Color::Black;
+				window.draw(line);
+			}
+		}
+
+
+		//mouse click event (draw the shortest path)
+		if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
+		{
+			if (button_shortest.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+			{
+				isVisiable_shortest = !isVisiable_shortest;
+			}
+		}
+		vector<VertexArray> lines;
+		if (isVisiable_shortest)
+		{
+			for (int i = 0; i < path.size() - 1; i++)
+			{
+				VertexArray line(Lines, 4);
+				Vector2f offset(0.5f, 0.5f);  //offset to make the line more clear
+
+				line[0].position = nodeCoordinates[path[i]] - offset;
+				line[0].color = Color::Red;
+				line[1].position = nodeCoordinates[path[i + 1]] - offset;
+				line[1].color = Color::Red;
+				line[2].position = nodeCoordinates[path[i]] + offset;
+				line[2].color = Color::Red;
+				line[3].position = nodeCoordinates[path[i + 1]] + offset;
+				line[3].color = Color::Red;
+				lines.push_back(line);
+			}
+		}
+		for (const auto& line : lines)
+		{
+			window.draw(line);
+		}
+
+
+		//mouse click event (draw the progress of the algorithm)
+		if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
+		{
+			if (button_progress.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+			{
+				isVisiable_progress = !isVisiable_progress;
+			}
+		}
+		vector<VertexArray> lines_progress_disp;
+		if (isVisiable_progress)
+		{
+			VertexArray line(Lines, 2);
+			for (const auto& update : pathUpdates)
+			{
+				if (get<2>(update) == "True")
+				{
+					line[0].position = nodeCoordinates[get<0>(update)];
+					line[0].color = Color::Blue;
+					line[1].position = nodeCoordinates[get<1>(update)];
+					line[1].color = Color::Blue;
+					lines_progress_disp.push_back(line);
+				}
+			}
+		}
+		for (const auto& line : lines_progress_disp)
+		{
+			window.draw(line);
+		}
+
+
+
+		//display the content from the back buffer
 		window.display();
+		sleep(milliseconds(100));
 	}
 	return 0;
 }
