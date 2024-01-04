@@ -27,6 +27,7 @@
 #include <string>
 #include <cmath>
 #include <tuple>
+#include <iomanip>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>	//use the SFML library
 using namespace std;
@@ -139,7 +140,6 @@ tuple<vector<string>,vector<tuple<string,string,string>>> dijkstra(const Graph& 
 }
 
 
-
 int main()
 {
 	//read nodes and edges from file
@@ -170,9 +170,21 @@ int main()
 	
 	//print the progress of the algorithm
 	cout << "The progress of the algorithm is: " << endl;
+	int count = 0;
 	for (const auto& update : pathUpdates)
 	{
-		cout << get<0>(update) << " -> " << get<1>(update) << "  "<< get<2>(update)<<endl;
+		cout << std::setw(3) << std::left << std::get<0>(update) << " -> "
+			<< std::setw(5) << std::left << std::get<1>(update) << "  "
+			<< std::setw(5) << std::left << std::get<2>(update);
+		count++;
+		if (count % 4 == 0)
+		{
+			cout << endl;
+		}
+		else
+		{
+			cout << "        ";
+		}
 	}
 	cout << endl;
 
@@ -322,6 +334,36 @@ int main()
 		}
 
 
+		//mouse click event (draw the progress of the algorithm)
+		if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
+		{
+			if (button_progress.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
+			{
+				isVisiable_progress = !isVisiable_progress;
+			}
+		}
+		vector<VertexArray> lines_progress_disp;
+		if (isVisiable_progress)
+		{
+			VertexArray line(Lines, 2);
+			for (const auto& update : pathUpdates)
+			{
+				if (get<2>(update) == "True")
+				{
+					line[0].position = nodeCoordinates[get<0>(update)];
+					line[0].color = Color::Blue;
+					line[1].position = nodeCoordinates[get<1>(update)];
+					line[1].color = Color::Blue;
+					lines_progress_disp.push_back(line);
+				}
+			}
+		}
+		for (const auto& line : lines_progress_disp)
+		{
+			window.draw(line);
+		}
+
+
 		//mouse click event (draw the shortest path)
 		if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
 		{
@@ -353,37 +395,6 @@ int main()
 		{
 			window.draw(line);
 		}
-
-
-		//mouse click event (draw the progress of the algorithm)
-		if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
-		{
-			if (button_progress.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window))))
-			{
-				isVisiable_progress = !isVisiable_progress;
-			}
-		}
-		vector<VertexArray> lines_progress_disp;
-		if (isVisiable_progress)
-		{
-			VertexArray line(Lines, 2);
-			for (const auto& update : pathUpdates)
-			{
-				if (get<2>(update) == "True")
-				{
-					line[0].position = nodeCoordinates[get<0>(update)];
-					line[0].color = Color::Blue;
-					line[1].position = nodeCoordinates[get<1>(update)];
-					line[1].color = Color::Blue;
-					lines_progress_disp.push_back(line);
-				}
-			}
-		}
-		for (const auto& line : lines_progress_disp)
-		{
-			window.draw(line);
-		}
-
 
 
 		//display the content from the back buffer
