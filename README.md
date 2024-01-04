@@ -28,4 +28,6 @@ True代表更新成功，False代表更新失败。
 
 ![image](https://github.com/ZhangAilan/Dijkstra_Algorithm_Dynamic_Demonstration/assets/123959805/4e967243-8368-478a-97b3-26b807df9eef)
 
+## 直接下载可执行文件
 
+https://github.com/ZhangAilan/Dijkstra_Algorithm_Dynamic_Demonstration/tree/executable
