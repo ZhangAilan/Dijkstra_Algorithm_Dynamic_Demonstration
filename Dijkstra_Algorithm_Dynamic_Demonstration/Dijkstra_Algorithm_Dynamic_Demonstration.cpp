@@ -212,7 +212,7 @@ int main()
 	RenderWindow window(VideoMode(1500, 900), "Dijkstra Algorithm Dynamic Demonstration");
 	//create the font
 	Font font;
-	if (!font.loadFromFile("C:/Windows/Fonts/arial.ttf"))
+	if (!font.loadFromFile("arial.ttf"))
 	{
 		cout<<"Error loading font"<<endl;
 	}

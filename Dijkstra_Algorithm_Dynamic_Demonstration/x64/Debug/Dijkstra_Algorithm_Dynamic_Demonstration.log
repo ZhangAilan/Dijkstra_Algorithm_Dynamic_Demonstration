@@ -1,22 +1,2 @@
-﻿  Dijkstra_Algorithm_Dynamic_Demonstration.cpp
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(153,55): warning C4244: “参数”: 从“const double”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(153,47): warning C4244: “参数”: 从“const double”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(206,33): warning C4244: “参数”: 从“const double”转换到“float”，可能丢失数据
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(206,25): warning C4244: “参数”: 从“const double”转换到“float”，可能丢失数据
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(223,48): warning C4305: “参数”: 从“int”到“sf::Uint8”截断
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(223,48): warning C4309: “参数”: 截断常量值
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(234,52): warning C4305: “参数”: 从“int”到“sf::Uint8”截断
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(234,52): warning C4309: “参数”: 截断常量值
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(245,52): warning C4305: “参数”: 从“int”到“sf::Uint8”截断
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(245,52): warning C4309: “参数”: 截断常量值
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(288,33): warning C4244: “参数”: 从“const double”转换到“float”，可能丢失数据
-D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration\Dijkstra_Algorithm_Dynamic_Demonstration.cpp(288,25): warning C4244: “参数”: 从“const double”转换到“float”，可能丢失数据
+﻿  LINK : 没有找到 D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\x64\Debug\Dijkstra_Algorithm_Dynamic_Demonstration.exe 或上一个增量链接没有生成它；正在执行完全链接
   Dijkstra_Algorithm_Dynamic_Demonstration.vcxproj -> D:\C++Projects\Dijkstra_Algorithm_Dynamic_Demonstration\x64\Debug\Dijkstra_Algorithm_Dynamic_Demonstration.exe
