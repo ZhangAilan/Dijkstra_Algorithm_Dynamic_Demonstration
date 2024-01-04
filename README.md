@@ -16,3 +16,11 @@ https://blog.csdn.net/Hsianus/article/details/130727463
 https://blog.csdn.net/Ulysessx/article/details/108910083
 
 create_data.py用以创建算法所需的edges与nodes数据。
+
+## 添加Dijkstra算法过程
+
+![image](https://github.com/ZhangAilan/Dijkstra_Algorithm_Dynamic_Demonstration/assets/123959805/52223eb5-fa2b-43bd-8f2f-bda6fa30218e)
+
+![image](https://github.com/ZhangAilan/Dijkstra_Algorithm_Dynamic_Demonstration/assets/123959805/4e967243-8368-478a-97b3-26b807df9eef)
+
+
