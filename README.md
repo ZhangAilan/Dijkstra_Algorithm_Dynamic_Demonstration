@@ -19,6 +19,11 @@ create_data.py用以创建算法所需的edges与nodes数据。
 
 ## 添加Dijkstra算法过程
 
+蓝色线段代表算法更新过的边。
+True代表更新成功，False代表更新失败。
+
+由于随机数据，故边会有重复。
+
 ![image](https://github.com/ZhangAilan/Dijkstra_Algorithm_Dynamic_Demonstration/assets/123959805/52223eb5-fa2b-43bd-8f2f-bda6fa30218e)
 
 ![image](https://github.com/ZhangAilan/Dijkstra_Algorithm_Dynamic_Demonstration/assets/123959805/4e967243-8368-478a-97b3-26b807df9eef)
