@@ -1,3 +1,4 @@
 the floyd algorithm
 
-![Uploading 2024-01-06-14-58-10.gif…]()
+![image](https://github.com/ZhangAilan/Dijkstra_Algorithm_Dynamic_Demonstration/assets/123959805/0a75d5e1-1089-4ae9-b559-d294f7af1703)
+
